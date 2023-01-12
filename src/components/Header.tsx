@@ -74,6 +74,7 @@ export default function Header(props: Props) {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link className='link' href={'/'}>Заявки</Link>
             <Link className='link' href={'/create'}>Создать заявку</Link>
+            <Link className='link' href={'/fond'}>Фонд</Link>
             <Link className='link' href={'/statistic'}>Статистика</Link>
           </Box>
         </Toolbar>

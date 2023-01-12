@@ -1,4 +1,5 @@
-import { IApplications, dictionaryCategory } from './../types/Application';
+import { IApplications, ICategory } from './../types/Application';
+import { categories } from '../types/Categories';
 
 const generatePhoneNumber = () => {
     const randomPhoneNumbers = (n: number) => {
@@ -16,40 +17,8 @@ const generatePhoneNumber = () => {
     return numberValueReduced(phoneNumber);
 }
 
-const generateSex = () => {
-    const sex = Math.floor(Math.random() * 10); 
-    if(sex > 5) return 'male' 
-    return 'female'
-}
-
-const generateRandomCategory = (categories: Array<string>) => {
-    const category = Math.floor(Math.random() * 10);
-    return categories[category];
-}
-
-const generateDocuments = (category: string) => {
-    const dictionaryDocuments = ['Пасспорт', 'ИНН', 'Снилс'];
-    const dictionaryHousing = ['Справка о регистрации', 'Документ о месте жительства']
-    const dictionaryStipend = ['Справка поддтверждающая потребность в пособии']
-    const dictionaryCapital = ['Свидетельство о рождении детей']
-
-    if(!category) {
-        return []
-    }
-
-    if(category === 'Субсидии и МСП по оплате ЖКУ') {
-        return dictionaryHousing
-    } else if (
-        category === 'Соцподдержка семей с детьми' || 
-        category === 'Ежемесячные денежные выплаты отдельным категориям граждан' ||
-        category === 'Соцподдержка пострадавших от радиации'
-    ) {
-        return dictionaryStipend
-    } else if (category === 'Материнский капитал') {
-        return dictionaryCapital
-    } else {
-        return dictionaryDocuments
-    }
+const generateRandomCategory = () => {
+    return categories[Math.floor(Math.random() * categories.length)];
 }
 
 export const generateRandomApplications = (
@@ -62,19 +31,17 @@ export const generateRandomApplications = (
     for(let i = 0; i < count; i++) {
         const randomName = dictionaryNames[Math.floor(Math.random() * 8)];
         const randomLastName = dictionaryLastNames[Math.floor(Math.random() * 8)];
-        const category = generateRandomCategory(dictionaryCategory);
-        const documents = generateDocuments(category);
-        const status = Math.floor(Math.random() * documents.length) + 1;
+        const category = generateRandomCategory();
+        const status = (Math.floor(Math.random() * 10) < 5) ? true : false;
 
         const Application: IApplications = {
             id: Math.floor(Math.random() * 100000),
             firstName: randomName,
             lastName: randomLastName,
-            sex: generateSex(),
             phone: generatePhoneNumber(),
             category: category,
-            documents: documents,
-            documentsStatus: status
+            documents: category?.docs,
+            status: status
         };
 
         result.push(Application);

@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Statistics from '../src/components/Statistic';
-import { Container } from '@mui/material';
 import Header from '../src/components/Header';
+import Fond from '../src/components/Fond';
+import { Container } from '@mui/material';
 
-export default function Statistic() {
+export default function FondPage() {
   return (
     <>
       <Head>
@@ -13,9 +13,9 @@ export default function Statistic() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container style={{ marginTop: 100 }} maxWidth="lg">
+      <Container style={{ marginTop: 100, maxWidth: '40%' }}>
         <Header/>
-        <Statistics/>
+        <Fond/>
       </Container>
     </>
   )

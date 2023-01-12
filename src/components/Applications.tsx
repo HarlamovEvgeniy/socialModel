@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Box, Chip, Alert } from '@mui/material';
+import { Box, Chip, Alert, Tooltip } from '@mui/material';
 import { applicationsAtom } from '../store/applications';
 
 export const Applications = () => {
@@ -15,7 +15,14 @@ export const Applications = () => {
         {field: 'firstName', headerName: 'Имя', width: 150},
         {field: 'lastName', headerName: 'Фамилия', width: 150},
         {field: 'phone', headerName: 'Номер телефона', width: 200},
-        {field: 'category', headerName: 'Выбранная услуга', width: 300},
+        {
+            field: 'category', 
+            headerName: 'Выбранная услуга',
+            width: 300,
+            renderCell: (params: GridRenderCellParams) => {
+                return <span>{params.value.name}</span>;
+            }
+        },
         {
             field: 'documents', 
             headerName: 'Собранные документы', 
@@ -23,23 +30,20 @@ export const Applications = () => {
             renderCell: (params: GridRenderCellParams) => {
                 let label = ' ';
                 params?.value.map((item: any) => { label = label + (item + ', ') })
-                return <Chip label={label} />;
+                return <Tooltip title={label}><Chip label={label} /></Tooltip>;
             }
         },
         {
-            field: 'documentsStatus', 
+            field: 'status', 
             headerName: 'Статус обработки заявки', 
             width: 300,
             align: 'right',
             headerAlign: 'right',
             renderCell: (params: GridRenderCellParams) => {
-                const documentsCount = params.row.documents;
-                if(documentsCount.length === 0) {
-                    return <Alert style={{width: 170, paddingTop: 0, paddingBottom: 0}} severity="error">Отказано</Alert>;
-                } else if (documentsCount.length === params.value) {
+                if(params.value) {
                     return <Alert style={{width: 170, paddingTop: 0, paddingBottom: 0}} severity="success">Обработано</Alert>;
                 } else {
-                    return <Alert style={{width: 170, paddingTop: 0, paddingBottom: 0}} severity="warning">Не обработано</Alert>;
+                    return <Alert style={{width: 170, paddingTop: 0, paddingBottom: 0}} severity="warning">В обработке</Alert>;
                 }
 
             }

@@ -3,8 +3,8 @@ import { Box, TextField, FormControl, InputLabel, Select, SelectChangeEvent, Men
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { dictionaryCategory } from '../types/Application';
 import { useRouter } from 'next/router';
+import { categories } from '../types/Categories';
 
 export const Create = () => {
     const [age, setAge] = React.useState('');
@@ -52,8 +52,8 @@ export const Create = () => {
                     onChange={handleChange}
                 >
                     {
-                        dictionaryCategory.map((item, index) => {
-                            return <MenuItem value={index}>{item}</MenuItem>
+                        categories.map((item, index) => {
+                            return <MenuItem value={index}>{item.name}</MenuItem>
                         })
                     }
                 </Select>
